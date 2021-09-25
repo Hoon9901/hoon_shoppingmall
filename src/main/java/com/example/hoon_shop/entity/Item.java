@@ -1,6 +1,7 @@
 package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.ItemSellStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,4 +41,6 @@ public class Item {
     private LocalDateTime createTime;   // 등록 시간
     private LocalDateTime updateTime;   // 수정 시간
 
+
+    // TODO : 빌더 패턴으로 작성하기
 }
