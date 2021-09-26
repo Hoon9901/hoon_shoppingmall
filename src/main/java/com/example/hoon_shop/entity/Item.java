@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Entity
 public class Item {
 
-
     @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
