@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.24'
     testImplementation 'com.h2database:h2:1.4.200'
 
-    implementation 'org.thymeleaf:thymeleaf:3.0.12.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
