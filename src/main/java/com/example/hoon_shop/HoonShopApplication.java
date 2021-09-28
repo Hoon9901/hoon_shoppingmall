@@ -9,5 +9,4 @@ public class HoonShopApplication {
     public static void main(String[] args) {
         SpringApplication.run(HoonShopApplication.class, args);
     }
-
 }

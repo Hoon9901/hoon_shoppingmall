@@ -25,6 +25,7 @@ dependencies {
     testImplementation 'com.h2database:h2:1.4.200'
 
     implementation 'org.thymeleaf:thymeleaf:3.0.12.RELEASE'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
