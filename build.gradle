@@ -26,6 +26,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
