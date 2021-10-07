@@ -20,9 +20,9 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.postgresql:postgresql:42.2.24'
-    testImplementation 'com.h2database:h2:1.4.200'
+
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -31,8 +31,8 @@ dependencies {
 
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.4.1'
 
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // Querydsl
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -42,6 +42,14 @@ dependencies {
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2:1.4.200'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+}
+
+// clean task 실행시 QClass 삭제
+clean {
+    delete file('build/generated') // 인텔리제이 Annotation processor 생성물 생성위치
 }
 
 sourceSets {
