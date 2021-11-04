@@ -1,4 +1,4 @@
-package com.example.hoon_shop.entity;
+ package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.Role;
 import com.example.hoon_shop.dto.MemberFormDto;
