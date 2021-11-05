@@ -3,6 +3,7 @@ package com.example.hoon_shop.entity;
 import com.example.hoon_shop.constant.ItemSellStatus;
 import com.example.hoon_shop.repository.ItemRepository;
 import com.example.hoon_shop.repository.MemberRepository;
+import com.example.hoon_shop.repository.OrderItemRepository;
 import com.example.hoon_shop.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ class OrderTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -96,5 +100,17 @@ class OrderTest {
         Order order = this.createOrder();
         order.getOrderItems().remove(0);
         entityManager.flush();
+    }
+
+    @Test
+    public void 지연로딩_테스트() {
+        Order order = this.createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getId();
+        entityManager.flush();
+        entityManager.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class : " + orderItem.getOrder().getClass());
     }
 }
