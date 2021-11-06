@@ -18,7 +18,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne   // 즉시로딩
+    @OneToOne(fetch = FetchType.LAZY)   // 지연로딩
     @JoinColumn(name = "member_id")
     private Member member;
 }
