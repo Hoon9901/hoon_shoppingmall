@@ -1,8 +1,11 @@
- package com.example.hoon_shop.entity;
+package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.Role;
 import com.example.hoon_shop.dto.MemberFormDto;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -12,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "member")
 @Entity
 @NoArgsConstructor
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @Column(name = "member_id")

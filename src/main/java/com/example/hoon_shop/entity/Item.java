@@ -1,20 +1,18 @@
 package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.ItemSellStatus;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 @Table(name = "item")
 @Entity
-public class Item {
+public class Item extends BaseEntity {
 
     @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,10 +34,6 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;  // 상품 판매 상태
-
-    private LocalDateTime createTime;   // 등록 시간
-    private LocalDateTime updateTime;   // 수정 시간
-
 
     // TODO : 빌더 패턴으로 작성하기
 }
