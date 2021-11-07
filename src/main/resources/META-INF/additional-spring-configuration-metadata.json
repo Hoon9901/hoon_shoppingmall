@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "uploadPath",
+      "type": "java.lang.String",
+      "description": "Description for uploadPath."
+    }
+  ]
+}
