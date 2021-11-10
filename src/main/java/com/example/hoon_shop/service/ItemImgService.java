@@ -1,7 +1,7 @@
 package com.example.hoon_shop.service;
 
 import com.example.hoon_shop.entity.ItemImg;
-import com.example.hoon_shop.repository.ItemImgRespotiory;
+import com.example.hoon_shop.repository.ItemImgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ItemImgService {
     @Value("${itemImgLocation}")
     private String itemImgLocation;
 
-    private final ItemImgRespotiory itemImgRespotiory;
+    private final ItemImgRepository itemImgRespotiory;
 
     private final FileService fileService;
 

@@ -4,7 +4,7 @@ package com.example.hoon_shop.service;
 import com.example.hoon_shop.dto.ItemFormDto;
 import com.example.hoon_shop.entity.Item;
 import com.example.hoon_shop.entity.ItemImg;
-import com.example.hoon_shop.repository.ItemImgRespotiory;
+import com.example.hoon_shop.repository.ItemImgRepository;
 import com.example.hoon_shop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemImgService itemImgService;
-    private final ItemImgRespotiory itemImgRespotiory;
+    private final ItemImgRepository itemImgRespotiory;
 
     public Long saveItem(ItemFormDto itemFormDto,
                          List<MultipartFile> itemImgFileList) throws Exception {
