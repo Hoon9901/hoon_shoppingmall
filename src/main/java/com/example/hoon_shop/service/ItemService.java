@@ -2,6 +2,7 @@ package com.example.hoon_shop.service;
 
 
 import com.example.hoon_shop.dto.ItemFormDto;
+import com.example.hoon_shop.dto.ItemImgDto;
 import com.example.hoon_shop.entity.Item;
 import com.example.hoon_shop.entity.ItemImg;
 import com.example.hoon_shop.repository.ItemImgRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,5 +43,22 @@ public class ItemService {
             itemImgService.saveItemImg(itemImg, itemImgFileList.get(i));
         }
         return item.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public ItemFormDto getItemDetail(Long itemId) {
+
+        List<ItemImg> itemImgs = itemImgRespotiory.findByItemIdOrderByIdAsc(itemId);
+        List<ItemImgDto> itemImgDtos = new ArrayList<>();
+        for (ItemImg itemImg : itemImgs) {
+            ItemImgDto itemImgDto = ItemImgDto.of(itemImg);
+            itemImgDtos.add(itemImgDto);
+        }
+
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(EntityNotFoundException::new);
+        ItemFormDto itemFormDto = ItemFormDto.of(item);
+        itemFormDto.setItemImgDtos(itemImgDtos);
+        return itemFormDto;
     }
 }
