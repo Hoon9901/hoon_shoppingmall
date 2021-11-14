@@ -1,6 +1,7 @@
 package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.ItemSellStatus;
+import com.example.hoon_shop.dto.ItemFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,7 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Getter
-@Setter
+@Setter // TODO : 빌더 패턴으로 작성하기
 @ToString
 @Table(name = "item")
 @Entity
@@ -35,5 +36,11 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;  // 상품 판매 상태
 
-    // TODO : 빌더 패턴으로 작성하기
+    public void updateItem(ItemFormDto itemFormDto) {
+        this.itemName = itemFormDto.getItemName();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
 }
