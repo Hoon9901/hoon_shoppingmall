@@ -18,7 +18,7 @@ public class Cart extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)   // 지연로딩
+    @OneToOne(fetch = FetchType.LAZY)   // 지연로딩 df
     @JoinColumn(name = "member_id")
     private Member member;
 }
