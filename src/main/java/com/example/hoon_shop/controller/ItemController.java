@@ -2,6 +2,7 @@ package com.example.hoon_shop.controller;
 
 import com.example.hoon_shop.dto.ItemFormDto;
 import com.example.hoon_shop.dto.ItemSearchDto;
+import com.example.hoon_shop.dto.MainItemDto;
 import com.example.hoon_shop.entity.Item;
 import com.example.hoon_shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,16 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
+
+    @GetMapping("/")
+    public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
+        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage", 5);
+        return "main";
+    }
 
     @GetMapping("/admin/item/new")
     public String itemForm(Model model) {
@@ -103,4 +114,5 @@ public class ItemController {
 
         return "item/itemMng";
     }
+
 }
