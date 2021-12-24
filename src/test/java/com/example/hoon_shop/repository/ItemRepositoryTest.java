@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest
-class ItemRepositoryTest {
+class qItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
