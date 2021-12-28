@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Item extends BaseEntity {
 
     @Column(name = "item_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;    // 상품 코드
 
