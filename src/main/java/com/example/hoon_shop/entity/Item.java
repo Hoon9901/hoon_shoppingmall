@@ -52,4 +52,9 @@ public class Item extends BaseEntity {
         }
         this.stockNumber = restStock;
     }
+
+    // 상품의 재고 더하기
+    public void addStock(int stockNumber) {
+        this.stockNumber += stockNumber;
+    }
 }

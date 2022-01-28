@@ -1,6 +1,7 @@
 package com.example.hoon_shop.service;
 
 import com.example.hoon_shop.constant.ItemSellStatus;
+import com.example.hoon_shop.constant.OrderStatus;
 import com.example.hoon_shop.dto.MemberFormDto;
 import com.example.hoon_shop.dto.OrderDto;
 import com.example.hoon_shop.entity.Item;
@@ -74,5 +75,25 @@ class OrderServiceTest {
         int totalPrice = orderDto.getCount() * item.getPrice();
 
         assertEquals(totalPrice, order.getTotalPrice());
+    }
+
+    @Test
+    public void 주문_취소_테스트(){
+        Item item = saveItem();
+        Member member = saveMember();
+
+        // 주문 엔티티 조회
+        OrderDto orderDto = new OrderDto();
+        orderDto.setCount(10);
+        orderDto.setItemId(item.getId());
+        Long orderId = orderService.order(orderDto, member.getEmail());
+
+        // 해당 주문 취소
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(EntityNotFoundException::new);
+        orderService.cancelOrder(orderId);
+
+        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
+        assertEquals(100, item.getStockNumber());
     }
 }
