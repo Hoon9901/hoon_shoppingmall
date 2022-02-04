@@ -6,9 +6,14 @@ import com.example.hoon_shop.dto.MainItemDto;
 import com.example.hoon_shop.entity.Item;
 import com.example.hoon_shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,17 +31,32 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ItemService itemService;
 
     @GetMapping("/")
-    public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
+    public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model, Authentication authentication) {
+        userInfo(authentication);
+
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 5);
         return "main";
+    }
+
+    private void userInfo(Authentication authentication) {
+        if (authentication != null) {
+            logger.info("타입 정보 : " + authentication.getClass());
+
+            WebAuthenticationDetails session = (WebAuthenticationDetails) authentication.getDetails();
+            logger.info("세션ID : " + session.getSessionId());
+            logger.info("접속IP : " + session.getRemoteAddress());
+            UserDetails userVO = (UserDetails) authentication.getPrincipal();
+            logger.info("접속 유저 정보 : " + userVO.getUsername() + " " + userVO.getAuthorities());
+        }
     }
 
     @GetMapping("/admin/item/new")
