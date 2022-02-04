@@ -1,5 +1,6 @@
 package com.example.hoon_shop.service;
 
+import com.example.hoon_shop.dto.CartDetailDto;
 import com.example.hoon_shop.dto.CartItemDto;
 import com.example.hoon_shop.entity.Cart;
 import com.example.hoon_shop.entity.CartItem;
@@ -12,8 +13,12 @@ import com.example.hoon_shop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +61,42 @@ public class CartService {
         CartItem newCartItem = CartItem.createCartItem(cart, item, count);
         cartItemRepository.save((newCartItem));
         return newCartItem;
+    }
+
+    @Transactional(readOnly = true)
+    public List<CartDetailDto> getCartList(String email) {
+        List<CartDetailDto> cartDetailDtos = new ArrayList<>();
+
+        Member member = memberRepository.findByEmail(email);
+        Cart cart = cartRepository.findByMemberId(member.getId());
+        // 장바구니 엔티티 존재하지 않음
+        if (cart == null) {
+            return cartDetailDtos;
+        }
+        // 장바구니에 담긴 상품 정보를 조회한다.
+        cartDetailDtos = cartItemRepository.findCartDetailDtoList(cart.getId());
+        return cartDetailDtos;
+    }
+
+    // 요청한 회원과 카트 회원이 같은지 검증
+    @Transactional(readOnly = true)
+    public boolean validateCartItem(Long cartItemId, String email) {
+        Member currentMember = memberRepository.findByEmail(email); // 요청 회원
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        Member savedMember = cartItem.getCart().getMember(); // 조회한 카트의 회원
+
+        if (!StringUtils.equals(currentMember.getEmail(), savedMember.getEmail())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void updateCartItemCount(Long cartItemId, int count) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        cartItem.updateCount(count);
     }
 }
