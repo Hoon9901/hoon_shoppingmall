@@ -2,15 +2,13 @@ package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.Role;
 import com.example.hoon_shop.dto.MemberFormDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @ToString
 @Table(name = "member")
 @Entity

@@ -2,6 +2,7 @@ package com.example.hoon_shop.entity;
 
 import com.example.hoon_shop.constant.ItemSellStatus;
 import com.example.hoon_shop.dto.ItemFormDto;
+import com.example.hoon_shop.exception.OutOfStockException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,5 +43,18 @@ public class Item extends BaseEntity {
         this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
+
+    public void removeStock(int stockNumber) {
+        int restStock = this.stockNumber - stockNumber;
+        if (restStock < 0) {
+            throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 수량: " + this.stockNumber + ")");
+        }
+        this.stockNumber = restStock;
+    }
+
+    // 상품의 재고 더하기
+    public void addStock(int stockNumber) {
+        this.stockNumber += stockNumber;
     }
 }
