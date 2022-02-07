@@ -4,6 +4,7 @@ import com.example.hoon_shop.dto.CartDetailDto;
 import com.example.hoon_shop.dto.CartItemDto;
 import com.example.hoon_shop.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -64,6 +65,17 @@ public class CartController {
         }
 
         cartService.updateCartItemCount(cartItemId, count);
+        return new ResponseEntity(cartItemId, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/cartItem/{cartItemId}")
+    public @ResponseBody
+    ResponseEntity deleteCartItem(@PathVariable("cartItemId") Long cartItemId, Principal principal) {
+        if (!cartService.validateCartItem(cartItemId, principal.getName())) {
+            return new ResponseEntity("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        cartService.deleteCartItem(cartItemId);
         return new ResponseEntity(cartItemId, HttpStatus.OK);
     }
 }
