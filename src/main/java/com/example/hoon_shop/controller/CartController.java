@@ -2,9 +2,9 @@ package com.example.hoon_shop.controller;
 
 import com.example.hoon_shop.dto.CartDetailDto;
 import com.example.hoon_shop.dto.CartItemDto;
+import com.example.hoon_shop.dto.CartOrderDto;
 import com.example.hoon_shop.service.CartService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -77,6 +77,24 @@ public class CartController {
 
         cartService.deleteCartItem(cartItemId);
         return new ResponseEntity(cartItemId, HttpStatus.OK);
+    }
+
+    @PostMapping("/cart/orders")
+    public @ResponseBody
+    ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal) {
+        List<CartOrderDto> cartOrderDtos = cartOrderDto.getCartOrderDtos();
+
+        if ( cartOrderDtos == null || cartOrderDtos.size() == 0)
+            return new ResponseEntity("주문할 상품을 선택해주세요.", HttpStatus.BAD_REQUEST);
+
+        for (CartOrderDto cartOrder : cartOrderDtos) {
+            if (!cartService.validateCartItem(cartOrder.getCartItemId(), principal.getName())) {
+                return new ResponseEntity("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            }
+        }
+
+        Long orderId = cartService.orderCartItem(cartOrderDtos, principal.getName());
+        return new ResponseEntity(orderId, HttpStatus.OK);
     }
 }
 

@@ -2,6 +2,8 @@ package com.example.hoon_shop.service;
 
 import com.example.hoon_shop.dto.CartDetailDto;
 import com.example.hoon_shop.dto.CartItemDto;
+import com.example.hoon_shop.dto.CartOrderDto;
+import com.example.hoon_shop.dto.OrderDto;
 import com.example.hoon_shop.entity.Cart;
 import com.example.hoon_shop.entity.CartItem;
 import com.example.hoon_shop.entity.Item;
@@ -29,6 +31,8 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+
+    private final OrderService orderService;
 
     public Long addCartToMember(CartItemDto cartItemDto, String email) {
         Item item = itemRepository.findById(cartItemDto.getItemId())
@@ -61,6 +65,29 @@ public class CartService {
         CartItem newCartItem = CartItem.createCartItem(cart, item, count);
         cartItemRepository.save((newCartItem));
         return newCartItem;
+    }
+
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtos, String email) {
+        List<OrderDto> orderDtos = new ArrayList<>();
+        for (CartOrderDto cartOrderDto : cartOrderDtos) {
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getCount());
+            orderDtos.add(orderDto);
+        }
+
+        Long orderId = orderService.orders(orderDtos, email);
+
+        for (CartOrderDto cartOrderDto : cartOrderDtos) {
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+            cartItemRepository.delete(cartItem);
+        }
+
+        return orderId;
     }
 
     @Transactional(readOnly = true)

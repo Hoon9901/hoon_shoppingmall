@@ -1,6 +1,5 @@
 package com.example.hoon_shop.log;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,8 +16,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,6 +53,7 @@ public class UserLogAspect {
         if (authentication.getPrincipal().getClass() == User.class) {
             UserDetails userVO = (UserDetails) authentication.getPrincipal();
             userInfo = userVO.getUsername() + " " + userVO.getAuthorities();
+
         } else{
             userInfo = authentication.getPrincipal().toString();
         }
