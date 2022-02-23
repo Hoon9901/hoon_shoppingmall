@@ -19,7 +19,7 @@
   ```bash
     psql > CREATE DATABASE shop;
   ```
-- Configure database
+- Configure database (application.yml)
   ```yml
   spring.datasource.url=jdbc:postgresql://localhost:5432/shop
   spring.datasource.username=<YOUR_USERNAME>
