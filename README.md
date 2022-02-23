@@ -1,4 +1,4 @@
-# Spring Boot ShoppingMall Demo
+# Spring Boot ShoppingMall
 
 ![image](https://user-images.githubusercontent.com/5029567/155296107-9b086dec-e61c-4cce-8e4d-6fdcb97f037d.png)
 
@@ -10,6 +10,7 @@
 - Spring Security
 - PostgreSQL
 - H2
+- QueryDSL
 - Thymeleaf
 ```
 
